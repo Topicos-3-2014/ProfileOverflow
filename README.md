@@ -10,3 +10,12 @@ relaciona, identificar também as tecnologias que estão sendo mais comentadas m
 recentemente. Ao final do projeto teremos uma interessante visão sobre o comportamento dos
 desenvolvedores presentes na rede social, bem como as linguagens tem contribuidores mais
 ativos.
+
+
+------------
+Responsáveis
+============
+
+@iagomoreira
+@mccard
+@seuraul
