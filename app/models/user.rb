@@ -15,7 +15,7 @@ class User
   end
 
   def self.top_users
-    api_content = open('http://api.stackexchange.com/2.2/users?order=desc&sort=reputation&site=stackoverflow').read
+    api_content = open("http://api.stackexchange.com/2.2/users?order=desc&sort=reputation&site=stackoverflow").read
     parsed_content = JSON.parse(api_content)
 
     top_users = []
@@ -26,6 +26,20 @@ class User
 
     top_users
   end
+
   #instance methods
+
+  def top_tags
+    api_content = open("http://api.stackexchange.com/2.2/users/#{@id}/top-answer-tags?pagesize=10&site=stackoverflow").read
+    parsed_content = JSON.parse(api_content)
+
+    tags = []
+
+    parsed_content["items"].each do |tag|
+      tags << Tag.from_json(tag)
+    end
+
+    tags
+  end
 
 end

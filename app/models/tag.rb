@@ -4,29 +4,59 @@ require 'json'
 class Tag
   attr_accessor :tag_name, :answer_count, :answer_score
 
-  def initialize tag_name, answer_count, answer_score
+  def initialize tag_name, answer_count = 0, answer_score = 0
     @tag_name, @answer_count, @answer_score = tag_name, answer_count, answer_score
   end
 
   #static methods
-  
-  def self.from_json_tags usr_hash
-    Tag.new(usr_hash["tag_name"], usr_hash["answer_count"],
-      usr_hash["answer_score"])
+
+  def self.from_json tag_hash
+    Tag.new(tag_hash["tag_name"], tag_hash["answer_count"],
+      tag_hash["answer_score"])
   end
-  
+
+  def self.from_related tag_hash
+    Tag.new(tag_hash["name"], tag_hash["count"])
+  end
+
   def self.top_tags
     api_content = open('http://api.stackexchange.com/2.2/users/22656/top-answer-tags?pagesize=10&site=stackoverflow').read
     parsed_content = JSON.parse(api_content)
 
     tags = []
 
-    parsed_content["items"].each do |usr|
-      tags << Tag.from_json_tags(usr)
+    parsed_content["items"].each do |tag|
+      tags << Tag.from_json(tag)
     end
 
     tags
   end
+
   #instance methods
 
+  def top_answerers
+    api_content = open("http://api.stackexchange.com/2.2/tags/#{@tag_name}/top-answerers/all_time?site=stackoverflow").read
+    parsed_content = JSON.parse(api_content)
+
+    top_answerers = []
+
+    parsed_content["items"].each do |answerer|
+      top_answerers << User.from_json(answerer["user"])
+    end
+
+    top_answerers
+  end
+
+  def related_tags
+    api_content = open("http://api.stackexchange.com/2.2/tags/#{@tag_name}/related?site=stackoverflow").read
+    parsed_content = JSON.parse(api_content)
+
+    related_tags = []
+
+    parsed_content["items"].each do |related|
+      related_tags << Tag.from_related(related)
+    end
+
+    related_tags
+  end
 end
