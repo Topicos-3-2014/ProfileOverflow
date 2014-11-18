@@ -26,7 +26,6 @@ class User
 
     top_users
   end
-
   #instance methods
 
 end
