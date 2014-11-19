@@ -59,4 +59,26 @@ class Tag
 
     related_tags
   end
+
+  def common_answered_tags
+    answerers = self.top_answerers
+
+    answerers_ids = ""
+    for i in (0...answerers.count-1)
+      answerers_ids += answerers[i].id.to_s + ";"
+    end
+
+    answerers_ids += answerers[answerers.count-1].id.to_s
+
+    api_content = open("http://api.stackexchange.com/2.2/users/#{answerers_ids}/tags?order=desc&sort=popular&site=stackoverflow").read
+    parsed_content = JSON.parse(api_content)
+
+    answered_tags = []
+
+    parsed_content["items"].each do |answered|
+      answered_tags << Tag.from_related(answered)
+    end
+
+    answered_tags
+  end
 end

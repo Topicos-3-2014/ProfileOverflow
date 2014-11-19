@@ -2,8 +2,10 @@ Rails.application.routes.draw do
 
   root 'charts#index'
 
-  get 'tags/:tag_name' => 'tags#show'
-  
+  get 'tags/:tag_name' => 'tags#show', as: :show_tag
+  get 'tags/:tag_name/common-answered-tags' => 'tags#common_answered', as: :common_answered
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

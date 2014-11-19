@@ -4,7 +4,7 @@
 <h3>Top Answerers</h3>
 <ul>
   <% @top_answerers.each do |top_answerer| %>
-    <li><%= top_answerer.display_name %></li>
+    <li><%= top_answerer.display_name %> : <%= top_answerer.id %></li>
   <% end %>
 </ul>
 
@@ -12,6 +12,6 @@
 <h3>Related tags</h3>
 <ul>
   <% @related_tags.each do |related| %>
-    <li><%= related.tag_name %></li>
+    <li><%= link_to related.tag_name, show_tag_path(related.tag_name) %></li>
   <% end %>
 </ul>
