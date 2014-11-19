@@ -8,6 +8,11 @@ class TagsController < ApplicationController
   def common_answered
     @tag = Tag.new(params[:tag_name])
     @common_answered_tags = @tag.common_answered_tags
-    @common_answered_data = @common_answered_tags.map {|u| [u.tag_name, u.answer_count]}
+    hsh = Hash.new(0)
+    @common_answered_tags.each do |tag|
+      hsh[tag.tag_name] += tag.answer_count.to_i
+    end
+
+    @common_answered_data = hsh.to_a
   end
 end

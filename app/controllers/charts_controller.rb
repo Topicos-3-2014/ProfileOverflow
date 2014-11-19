@@ -6,7 +6,6 @@ class ChartsController < ApplicationController
     @top_users_chart_data = @top_users.map {|u| [u.display_name, u.reputation]}
     @top_user_tag = @top_tags.map {|u| [u.tag_name, u.answer_score]}
 
-
     ages = []
 
     User.top_users.each do |tops|
