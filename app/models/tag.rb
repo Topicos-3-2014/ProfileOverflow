@@ -81,4 +81,30 @@ class Tag
 
     answered_tags
   end
+
+  def filtered_common_tags
+    common = self.common_answered_tags
+    related = self.related_tags
+
+    result = []
+
+    common.each do |c|
+      result << c unless Tag.is_tag_in_collection c, related
+    end
+
+    result
+  end
+
+  private
+
+  def self.is_tag_in_collection tag, collection
+    collection.each do |elm|
+      if elm.tag_name == tag.tag_name
+        return true
+      end
+    end
+
+    return false
+  end
+
 end
