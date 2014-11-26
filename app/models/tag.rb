@@ -89,7 +89,7 @@ class Tag
     result = []
 
     common.each do |c|
-      result << c unless Tag.is_tag_in_collection c, related
+      result << c unless (Tag.is_tag_in_collection c, related) or c.tag_name == self.tag_name
     end
 
     result
